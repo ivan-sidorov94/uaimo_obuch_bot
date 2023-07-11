@@ -1,7 +1,9 @@
 version: '3.3'
 services:
   web:
-    build: .
+    build: 
+    context: .
+    dockerfile: Dockerfile
     container_name: uaimo_obuch_bot
     command: python run_bot.py
     ports:
