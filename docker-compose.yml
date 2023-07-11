@@ -9,4 +9,4 @@ services:
     ports:
       - 80:80
     volumes:
-      - /opt/uaimo_obuch_bot:/uaimo_obuch_bot
+      - /opt/uaimo_obuch_bot:/bot
