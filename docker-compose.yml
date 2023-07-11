@@ -2,7 +2,6 @@ version: '3.3'
 services:
   web:
     build: .
-    container_name: uaimo_obuch_bot
     command: python /bot/run_bot.py
     ports:
       - 80:80
