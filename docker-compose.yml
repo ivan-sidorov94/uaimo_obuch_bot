@@ -9,6 +9,4 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./:/app
-    env_file:
-      - ./.env
+      -  - /opt/uaimo_obuch_bot:/uaimo_obuch_bot
