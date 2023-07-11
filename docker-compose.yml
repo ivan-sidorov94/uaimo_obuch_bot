@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  web:
+  bot:
     build: 
      context: .
      dockerfile: Dockerfile
@@ -10,3 +10,5 @@ services:
       - 80:80
     volumes:
       - ./:/app
+    env_file:
+      - ./.env
