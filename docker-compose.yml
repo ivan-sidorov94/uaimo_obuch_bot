@@ -8,4 +8,4 @@ services:
     volumes:
       - /opt/uaimo_obuch_bot:/data
     env_file:
-      - ./data/.env
+      - /home/.env
