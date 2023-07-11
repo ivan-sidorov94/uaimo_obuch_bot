@@ -3,8 +3,8 @@ FROM python:3.10
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONBUFFERED=1
-
-COPY . .
+WORKDIR /bot
+COPY . /bot
 
 
 RUN pip install --upgrade pip
