@@ -4,7 +4,8 @@ FROM python:3.10
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONBUFFERED=1
 
-COPY . .
+WORKDIR /app
+COPY . /app
 
 
 RUN pip install --upgrade pip
