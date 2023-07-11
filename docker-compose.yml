@@ -10,5 +10,4 @@ services:
       - 80:80
     volumes:
       - /opt/uaimo_obuch_bot:/bot
-    env_file:
-      - ./.env
+
