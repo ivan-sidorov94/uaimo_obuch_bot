@@ -3,7 +3,7 @@ services:
   web:
     build: .
     container_name: uaimo_obuch_bot
-    command: python app/run_bot.py
+    command: python run_bot.py
     ports:
       - 80:80
     volumes:
