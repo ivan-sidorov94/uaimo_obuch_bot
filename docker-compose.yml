@@ -6,5 +6,6 @@ services:
     command: python run_bot.py
     ports:
       - 80:80
-
+    volumes:
+      - /opt/uaimo_obuch_bot:/app
 
