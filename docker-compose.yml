@@ -6,3 +6,5 @@ services:
     command: python run_bot.py
     ports:
       - 80:80
+    env_file:
+      - ./opt/.env
