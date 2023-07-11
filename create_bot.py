@@ -5,12 +5,13 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+TOKEN: str = os.getenv("TOKEN", None)
 
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
 # Объект бота
-bot = Bot(token=os.getenv('TOKEN'))
+bot = Bot(token=TOKEN)
 # Диспетчер
 dp = Dispatcher(bot)
 
