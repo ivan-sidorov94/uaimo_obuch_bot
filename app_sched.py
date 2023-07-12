@@ -3,7 +3,6 @@ import asyncio
 import pendulum
 from data_base import sqlite_db
 from create_bot import bot
-from dotenv import load_dotenv
 import os
 
 
