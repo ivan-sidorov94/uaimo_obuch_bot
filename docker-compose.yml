@@ -8,4 +8,3 @@ services:
     command: python run_bot.py
     ports:
       - 80:80
-
