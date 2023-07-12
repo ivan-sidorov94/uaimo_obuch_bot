@@ -2,7 +2,7 @@ import sqlite3 as sq
 
 async def sql_start():
     global base, cur
-    base = sq.connect('database.db')
+    base = sq.connect('/data/database.db')
     cur = base.cursor()
     if base:
         print('Data base connect OK!')

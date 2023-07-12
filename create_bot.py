@@ -4,8 +4,7 @@ from data_base import sqlite_db
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-TOKEN: str = os.getenv("TOKEN", None)
+TOKEN=os.environ.get('TOKEN')
 
 
 # Включаем логирование, чтобы не пропустить важные сообщения
@@ -45,7 +44,7 @@ async def cmd_start(message: types.Message):
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
-    if message.from_user.id == os.getenv('admin_id'):
+    if message.from_user.id == os.environ.get('admin_id'):
         message_text = message.text.split('/send ')[1]
         for users in sqlite_db.get_all_users():
             await bot.send_message(users, message_text)

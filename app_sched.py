@@ -32,7 +32,7 @@ async def date_ot():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         return
     
@@ -49,7 +49,7 @@ async def date_pb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         return
 
@@ -65,7 +65,7 @@ async def date_eb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         return 
 
@@ -81,7 +81,7 @@ async def date_pjb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         pass
     try:
@@ -94,7 +94,7 @@ async def date_pjb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         pass
 
@@ -110,7 +110,7 @@ async def date_opmb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         return    
     
@@ -126,7 +126,7 @@ async def date_med_osm():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.getenv('chat_id'), text=text2)
+            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
     except:
         return 
 
