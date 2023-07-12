@@ -1,5 +1,6 @@
 import sqlite3 as sq
 
+
 async def sql_start():
     global base, cur
     base = sq.connect('/data/database.db')
