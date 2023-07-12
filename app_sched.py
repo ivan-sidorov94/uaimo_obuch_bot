@@ -6,8 +6,6 @@ from create_bot import bot
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-
 
 async def scheduler():
     aioschedule.every(1).day.at("09:00").do(date_ot)
