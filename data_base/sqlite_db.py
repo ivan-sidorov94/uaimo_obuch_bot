@@ -53,4 +53,5 @@ async def get_date_med_osm(user_id):
     
 async def get_all_users():
     with base:
-        return cur.execute("SELECT user_id FROM users").fetchall()
+        users = cur.execute("SELECT user_id FROM users").fetchall()
+        return [user[0] for user in users]

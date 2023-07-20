@@ -1,5 +1,6 @@
 import logging
 from aiogram import Bot, Dispatcher, types
+from aiogram.utils.exceptions import ChatNotFound, BotBlocked
 from data_base import sqlite_db
 import os
 import asyncio
@@ -44,18 +45,26 @@ async def cmd_start(message: types.Message):
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
-    admin_id = os.environ.get('admin_id')
-    if message.from_user.id == admin_id:
-        message_text = message.text.split('/send ')[1]
-        try:
-            async for users in sqlite_db.get_all_users():
-                await bot.send_message(users, message_text)
-                await asyncio.sleep(0.5)
-                await bot.send_message(admin_id, 'Рассылка завершена')
-        except Exception as e:
-            pass
-    else:
+    if message.from_user.id != int(os.environ.get('admin_id')):
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
+        return
+    message_text = message.text.split('/send ')[1]
+    try:
+        for users in await sqlite_db.get_all_users():
+            try:
+                await bot.send_message(int(users), message_text)
+                await asyncio.sleep(0.5)
+            except ChatNotFound:
+                print(f"Chat not found for user {users}. Ignoring error.")
+                pass
+            except BotBlocked:
+                print(f"Chat was blocked for user {users}. Ignoring error.")
+                pass
+        await bot.send_message(int(os.environ.get('admin_id')), 'Рассылка завершена')
+    except Exception as e:
+        print(f"An error occured: {e}")
+        pass
+
 
 @dp.callback_query_handler(text="ОТ")
 async def ot(call: types.CallbackQuery):
