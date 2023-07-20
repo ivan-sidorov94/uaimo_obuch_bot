@@ -2,6 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher, types
 from data_base import sqlite_db
 import os
+import asyncio
 
 TOKEN=os.environ.get('TOKEN')
 
@@ -47,6 +48,7 @@ async def send_message(message: types.Message):
         message_text = message.text.split('/send ')[1]
         for users in sqlite_db.get_all_users():
             await bot.send_message(users, message_text)
+            await asyncio.sleep(0.5)
     else:
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
 
