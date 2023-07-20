@@ -44,11 +44,16 @@ async def cmd_start(message: types.Message):
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
-    if message.from_user.id == os.environ.get('admin_id'):
+    admin_id = os.environ.get('admin_id')
+    if message.from_user.id == admin_id:
         message_text = message.text.split('/send ')[1]
-        for users in sqlite_db.get_all_users():
-            await bot.send_message(users, message_text)
-            await asyncio.sleep(0.5)
+        try:
+            async for users in sqlite_db.get_all_users():
+                await bot.send_message(users, message_text)
+                await asyncio.sleep(0.5)
+                await bot.send_message(admin_id, 'Рассылка завершена')
+        except Exception as e:
+            pass
     else:
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
 
