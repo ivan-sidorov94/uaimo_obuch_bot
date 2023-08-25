@@ -7,7 +7,7 @@ services:
     container_name: uaimo_obuch_bot
     command: python run_bot.py
     env_file:
-      - /opt/uaimo_obuch_bot/.env
+      - ./opt/uaimo_obuch_bot/.env
     ports:
       - 80:80
 
