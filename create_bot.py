@@ -2,10 +2,14 @@ import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils.exceptions import ChatNotFound, BotBlocked
 from data_base import sqlite_db
+from dotenv import load_dotenv
 import os
 import asyncio
 
+load_dotenv('/data/.env')
+
 TOKEN=os.environ.get('TOKEN')
+admin_id = os.environ.get('admin_id')
 
 
 # Включаем логирование, чтобы не пропустить важные сообщения
@@ -45,7 +49,7 @@ async def cmd_start(message: types.Message):
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
-    if message.from_user.id != int(os.environ.get('admin_id')):
+    if message.from_user.id != admin_id:
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
         return
     message_text = message.text.split('/send ')[1]
@@ -60,7 +64,7 @@ async def send_message(message: types.Message):
             except BotBlocked:
                 print(f"Chat was blocked for user {users}. Ignoring error.")
                 pass
-        await bot.send_message(int(os.environ.get('admin_id')), 'Рассылка завершена')
+        await bot.send_message(admin_id, 'Рассылка завершена')
     except Exception as e:
         print(f"An error occured: {e}")
         pass

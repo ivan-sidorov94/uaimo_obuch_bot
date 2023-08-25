@@ -3,7 +3,12 @@ import asyncio
 import pendulum
 from data_base import sqlite_db
 from create_bot import bot
+from dotenv import load_dotenv
 import os
+
+load_dotenv('/data/.env')
+
+chat_id = os.environ.get('chat_id')
 
 
 async def scheduler():
@@ -29,7 +34,7 @@ async def date_ot():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass
     
@@ -46,7 +51,7 @@ async def date_pb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass
 
@@ -62,7 +67,7 @@ async def date_eb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass 
 
@@ -78,7 +83,7 @@ async def date_pjb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass
     try:
@@ -91,7 +96,7 @@ async def date_pjb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
         
         pass
@@ -108,7 +113,7 @@ async def date_opmb():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
     
         pass    
@@ -125,7 +130,7 @@ async def date_med_osm():
                 await bot.send_message(row[0], text1)
                 await asyncio.sleep(0.5)
             await asyncio.sleep(1)            
-            await bot.send_message(chat_id=os.environ.get('chat_id'), text=text2)
+            await bot.send_message(chat_id, text=text2)
     except Exception as e:
     
         pass 
