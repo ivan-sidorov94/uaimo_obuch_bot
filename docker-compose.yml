@@ -3,7 +3,7 @@ services:
   bot:
     build: .
     volumes:
-      - ./opt/uaimo_obuch_bot:/data
+      - /opt/uaimo_obuch_bot:/data
     container_name: uaimo_obuch_bot
     command: python run_bot.py
     ports:
