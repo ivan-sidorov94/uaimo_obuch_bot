@@ -6,7 +6,7 @@ class DBManager:
         self.cur = None
 
     async def start(self):
-        self.base = await sq.connect('./data/database.db')
+        self.base = await sq.connect('/data/database.db')
         self.cur = await self.base.cursor()
         if self.base:
             print('Подключение к базе данных выполнено успешно!')
