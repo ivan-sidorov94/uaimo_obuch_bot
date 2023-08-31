@@ -9,7 +9,7 @@ services:
     ports:
       - 80:80
     env_file:
-      - ./data/stack.env
+      - /data/stack.env
     environment:
       - TZ=Asia/Yekaterinburg
 
