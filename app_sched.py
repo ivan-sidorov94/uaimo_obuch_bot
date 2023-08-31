@@ -6,7 +6,7 @@ from create_bot import bot
 from dotenv import load_dotenv
 import os
 
-load_dotenv('./data/.env')
+load_dotenv('./data/stack.env')
 
 chat_id = os.environ.get('chat_id')
 ksu_id = os.environ.get('ksu_id')
@@ -41,7 +41,7 @@ async def date_ot():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass
-    await db.base.commit() 
+    
 
 async def date_pb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -58,7 +58,6 @@ async def date_pb():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass
-    await db.base.commit()
 
 async def date_eb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -75,7 +74,6 @@ async def date_eb():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
         pass 
-    await db.base.commit()
 
 async def date_pjb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -105,7 +103,6 @@ async def date_pjb():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:        
         pass
-    await db.base.commit()
 
 async def date_opmb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -122,7 +119,6 @@ async def date_opmb():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:    
         pass
-    await db.base.commit()
     
 async def date_med_osm():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -139,7 +135,6 @@ async def date_med_osm():
             await bot.send_message(chat_id, text=text2)
     except Exception as e:  
         pass 
-    await db.base.commit()
 
 async def monthly():
     if pendulum.today().day == 1:
@@ -169,7 +164,6 @@ async def monthly():
     except Exception as e:
         pass
     pass
-    await db.base.commit()
 
 
 def register_scheduler():
