@@ -9,7 +9,7 @@ services:
     ports:
       - 80:80
     env_file:
-      - ./opt/uaimo_obuch_bot/stack.env
+      - ./data/stack.env
     environment:
       - TZ=Asia/Yekaterinburg
 
