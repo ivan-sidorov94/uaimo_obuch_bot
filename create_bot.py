@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import os
 import asyncio
 
-load_dotenv('/data/.env')
+load_dotenv('/data/stack.env')
 
 TOKEN=os.environ.get('TOKEN')
 admin_id = os.environ.get('admin_id')

@@ -6,7 +6,7 @@ from create_bot import bot
 from dotenv import load_dotenv
 import os
 
-load_dotenv('/data/.env')
+load_dotenv('/data/stack.env')
 
 chat_id = os.environ.get('chat_id')
 
@@ -36,8 +36,8 @@ async def date_ot():
             await asyncio.sleep(1)
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
-        pass
-    
+        print(e)        
+        pass    
 
 async def date_pb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -53,6 +53,7 @@ async def date_pb():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
+        print(e)        
         pass
 
 async def date_eb():
@@ -69,7 +70,8 @@ async def date_eb():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
-        pass 
+        print(e)        
+        pass
 
 async def date_pjb():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -85,7 +87,9 @@ async def date_pjb():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
+        print(e)        
         pass
+
     try:
         if date == ''.join(sqlite_db.cur.execute("SELECT PJB1 FROM users WHERE PJB1 = ?", (date,)).fetchone()):
             users_id = sqlite_db.cur.execute("SELECT user_id FROM users WHERE PJB1 = ?", (date,)).fetchall()
@@ -98,7 +102,7 @@ async def date_pjb():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
-        
+        print(e)        
         pass
 
 async def date_opmb():
@@ -115,8 +119,8 @@ async def date_opmb():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
-    
-        pass    
+        print(e)        
+        pass
     
 async def date_med_osm():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
@@ -132,8 +136,8 @@ async def date_med_osm():
             await asyncio.sleep(1)            
             await bot.send_message(chat_id, text=text2)
     except Exception as e:
-    
-        pass 
+        print(e)        
+        pass
 
 
 def register_scheduler():

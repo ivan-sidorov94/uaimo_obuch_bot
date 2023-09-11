@@ -7,13 +7,11 @@ async def sql_start():
     cur = base.cursor()
     if base:
         print('Data base connect OK!')
-    base.commit()
 
 
 async def user_exists(user_id):
     with base:
         result = cur.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchmany(1)
-        base.commit()
         return bool(len(result))
         
 
