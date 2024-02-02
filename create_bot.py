@@ -8,9 +8,7 @@ import asyncio
 
 load_dotenv('/data/stack.env')
 
-TOKEN=os.environ.get('TOKEN')
-admin_id = os.environ.get('admin_id')
-
+TOKEN = os.environ.get('TOKEN')
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
@@ -29,12 +27,11 @@ async def cmd_start(message: types.Message):
         #types.InlineKeyboardButton(text="ЭБ", callback_data="ЭБ"),
         #types.InlineKeyboardButton(text="ПожБ", callback_data="ПожБ"),
         #types.InlineKeyboardButton(text="ОПМБ", callback_data="ОПМБ"),
-        
+
     ]
     but1 = [
         types.InlineKeyboardButton(text="Узнать дату медицинского осмотра", callback_data="med_osm")
     ]
-
 
     keyboard = types.InlineKeyboardMarkup()
     keyboard.row(*but)
@@ -43,31 +40,32 @@ async def cmd_start(message: types.Message):
         await sqlite_db.add_user(message.from_user.id, message.from_user.username, message.from_user.first_name, message.from_user.last_name)
         await bot.send_message(message.from_user.id, "Здесь Вы можете узнать дату обучения по ОТ, ПБ, ЭБ, ПожБ, ОПМБ и дату Медицинского осмотра", reply_markup=keyboard)
     else:
-        await bot.send_message(message.from_user.id,"Здесь Вы можете узнать дату обучения по ОТ, ПБ, ЭБ, ПожБ, ОПМБ и дату Медицинского осмотра", reply_markup=keyboard)
-        
+        await bot.send_message(message.from_user.id, "Здесь Вы можете узнать дату обучения по ОТ, ПБ, ЭБ, ПожБ, ОПМБ и дату Медицинского осмотра", reply_markup=keyboard)
+
 
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
+    admin_id = os.environ.get('admin_id')
     if message.from_user.id != admin_id:
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
-        return
-    message_text = message.text.split('/send ')[1]
-    try:
-        for users in await sqlite_db.get_all_users():
-            try:
-                await bot.send_message(int(users), message_text)
-                await asyncio.sleep(0.5)
-            except ChatNotFound:
-                print(f"Chat not found for user {users}. Ignoring error.")
-                pass
-            except BotBlocked:
-                print(f"Chat was blocked for user {users}. Ignoring error.")
-                pass
-        await bot.send_message(admin_id, 'Рассылка завершена')
-    except Exception as e:
-        print(f"An error occured: {e}")
-        pass
+    else:
+        message_text = message.text.split('/send ')[1]
+        try:
+            for users in await sqlite_db.get_all_users():
+                try:
+                    await bot.send_message(int(users), message_text)
+                    await asyncio.sleep(0.5)
+                except ChatNotFound:
+                    await bot.send_message(admin_id, f"Chat not found for user {users}. Ignoring error.")
+                    pass
+                except BotBlocked:
+                    await bot.send_message(admin_id, f"Chat was blocked for user {users}. Ignoring error.")
+                    pass
+            await bot.send_message(admin_id, 'Рассылка завершена')
+        except Exception as e:
+            print(f"An error occured: {e}")
+            pass
 
 
 @dp.callback_query_handler(text="ОТ")
@@ -165,4 +163,3 @@ async def ot(call: types.CallbackQuery):
     except:
         await call.message.answer("У Вас нет медецинского осмотра")
         await call.answer()
-
