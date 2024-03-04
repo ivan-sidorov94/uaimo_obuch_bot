@@ -6,9 +6,11 @@ from dotenv import load_dotenv
 import os
 import asyncio
 
-load_dotenv('/data/stack.env')
+load_dotenv('/data/.env')
 
 TOKEN = os.environ.get('TOKEN')
+
+admin_id = os.environ.get('admin_id')
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
@@ -16,6 +18,7 @@ logging.basicConfig(level=logging.INFO)
 bot = Bot(token=TOKEN)
 # Диспетчер
 dp = Dispatcher(bot)
+
 
 
 # Хэндлер на команду /start
@@ -46,8 +49,9 @@ async def cmd_start(message: types.Message):
 # Хендлер на команду /send
 @dp.message_handler(commands="send")
 async def send_message(message: types.Message):
-    admin_id = os.environ.get('admin_id')
-    if message.from_user.id != admin_id:
+    await bot.send_message(message.from_user.id, text=message.from_user.id)
+
+    if message.from_user.id != int(admin_id):
         await bot.send_message(message.from_user.id, "Вы не являетесь Администратором")
     else:
         message_text = message.text.split('/send ')[1]
@@ -68,56 +72,56 @@ async def send_message(message: types.Message):
             pass
 
 
-@dp.callback_query_handler(text="ОТ")
-async def ot(call: types.CallbackQuery):
-    try:
-        date_ot = ''.join(await sqlite_db.get_date_ot(call.from_user.id))
-        await call.message.answer("Проверка знаний по Охране Труда: "+ date_ot)
-        await call.answer()
-    except:
-        await call.message.answer("У Вас нет проверки знаний по Охране Труда")
-        await call.answer()
+# @dp.callback_query_handler(text="ОТ")
+# async def ot(call: types.CallbackQuery):
+#     try:
+#         date_ot = ''.join(await sqlite_db.get_date_ot(call.from_user.id))
+#         await call.message.answer("Проверка знаний по Охране Труда: "+ date_ot)
+#         await call.answer()
+#     except:
+#         await call.message.answer("У Вас нет проверки знаний по Охране Труда")
+#         await call.answer()
 
-@dp.callback_query_handler(text="ПБ")
-async def ot(call: types.CallbackQuery):
-    try:
-        date_pb = ''.join(await sqlite_db.get_date_pb(call.from_user.id))
-        await call.message.answer("Проверка знаний по Промышленной Безопасности: "+ date_pb)
-        await call.answer()
-    except:
-        await call.message.answer("У Вас нет проверки знаний по Промышленной Безопасности")
-        await call.answer()
+# @dp.callback_query_handler(text="ПБ")
+# async def ot(call: types.CallbackQuery):
+#     try:
+#         date_pb = ''.join(await sqlite_db.get_date_pb(call.from_user.id))
+#         await call.message.answer("Проверка знаний по Промышленной Безопасности: "+ date_pb)
+#         await call.answer()
+#     except:
+#         await call.message.answer("У Вас нет проверки знаний по Промышленной Безопасности")
+#         await call.answer()
 
-@dp.callback_query_handler(text="ЭБ")
-async def ot(call: types.CallbackQuery):
-    try:
-        date_eb = ''.join(await sqlite_db.get_date_eb(call.from_user.id))
-        await call.message.answer("Проверка знаний по Электробезопасности: "+ date_eb)
-        await call.answer()
-    except:
-        await call.message.answer("У Вас нет проверки знаний по Электробезопасности")
-        await call.answer()
+# @dp.callback_query_handler(text="ЭБ")
+# async def ot(call: types.CallbackQuery):
+#     try:
+#         date_eb = ''.join(await sqlite_db.get_date_eb(call.from_user.id))
+#         await call.message.answer("Проверка знаний по Электробезопасности: "+ date_eb)
+#         await call.answer()
+#     except:
+#         await call.message.answer("У Вас нет проверки знаний по Электробезопасности")
+#         await call.answer()
 
-@dp.callback_query_handler(text="ПожБ")
-async def ot(call: types.CallbackQuery):
-    try:
-        date_pjb = ''.join(await sqlite_db.get_date_pjb(call.from_user.id))
-        date_pjb1 = ''.join(await sqlite_db.get_date_pjb1(call.from_user.id))
-        await call.message.answer("Проверки знаний по Пожарной Безопасности: "+ date_pjb + " и " + date_pjb1)
-        await call.answer()
-    except:
-        await call.message.answer("У Вас нет проверок знаний по Пожарной Безопасности")
-        await call.answer()
+# @dp.callback_query_handler(text="ПожБ")
+# async def ot(call: types.CallbackQuery):
+#     try:
+#         date_pjb = ''.join(await sqlite_db.get_date_pjb(call.from_user.id))
+#         date_pjb1 = ''.join(await sqlite_db.get_date_pjb1(call.from_user.id))
+#         await call.message.answer("Проверки знаний по Пожарной Безопасности: "+ date_pjb + " и " + date_pjb1)
+#         await call.answer()
+#     except:
+#         await call.message.answer("У Вас нет проверок знаний по Пожарной Безопасности")
+#         await call.answer()
 
-@dp.callback_query_handler(text="ОПМБ")
-async def ot(call: types.CallbackQuery):
-    try:
-        date_opmb = ''.join(await sqlite_db.get_date_opmb(call.from_user.id))
-        await call.message.answer("Проверка знаний по Оказанию Первой Медицинской Помощи: "+ date_opmb)
-        await call.answer()
-    except:
-        await call.message.answer("У Вас нет проверки знаний по Оказанию Первой Медицинской Помощи")
-        await call.answer()
+# @dp.callback_query_handler(text="ОПМБ")
+# async def ot(call: types.CallbackQuery):
+#     try:
+#         date_opmb = ''.join(await sqlite_db.get_date_opmb(call.from_user.id))
+#         await call.message.answer("Проверка знаний по Оказанию Первой Медицинской Помощи: "+ date_opmb)
+#         await call.answer()
+#     except:
+#         await call.message.answer("У Вас нет проверки знаний по Оказанию Первой Медицинской Помощи")
+#         await call.answer()
 
 
 @dp.callback_query_handler(text="obuch")

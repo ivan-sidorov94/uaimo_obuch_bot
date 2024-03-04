@@ -6,7 +6,7 @@ import app_sched
 
 
 async def on_startup(_):
-    app_sched.register_scheduler()
+    app_sched.run()
     await sqlite_db.sql_start()
 
 executor.start_polling(dp, skip_updates=False, on_startup=on_startup)

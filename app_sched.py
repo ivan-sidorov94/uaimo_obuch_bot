@@ -1,4 +1,5 @@
-import aioschedule
+import logging
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import asyncio
 import pendulum
 from datetime import datetime
@@ -7,53 +8,52 @@ from create_bot import bot
 from dotenv import load_dotenv
 import os
 
-load_dotenv('/data/stack.env')
+load_dotenv('/data/.env')
 
 chat_id = os.environ.get('chat_id')
 ksu_id = os.environ.get('ksu_id')
+admin_id = os.environ.get('admin_id')
 
 dict1 = ['OT', 'PB', 'EB', 'PJB', 'OPMB', 'PJB1', 'MED_OSM']
 dict2 = ['Проверка знаний по Охране Труда', 'Проверка знаний по Промышленной Безопасности', 'Проверка знаний по Электробезопасности', 'Обучение по Пожарной Безопасности', 'Обучение по Оказанию Первой Медицинской Помощи', 'Обучение по Пожарной Безопасности', 'Медецинский осмотр']
-text3 = ''
 
-
-async def scheduler():
-    aioschedule.every(1).day.at("09:00").do(schedule)
-    # aioschedule.every(1).day.at("09:00").do(date_ot)
-    # aioschedule.every(1).day.at("09:00").do(date_pb)
-    # aioschedule.every(1).day.at("09:00").do(date_eb)
-    # aioschedule.every(1).day.at("09:00").do(date_pjb)
-    # aioschedule.every(1).day.at("09:00").do(date_opmb)
-    # aioschedule.every(1).day.at("09:00").do(date_med_osm)
-    while True:
-        await aioschedule.run_pending()
-        await asyncio.sleep(1)
-
-async def schedule():
+async def send_notif():
     date = str(pendulum.today().add(days=3).format("DD.MM.YYYY"))
-    current_date = datetime.now().strftime('%m')
     for i, x in zip(dict1, dict2):
         try:
             if date == ''.join(sqlite_db.cur.execute(f"SELECT {i} FROM users WHERE {i}= ?", (date,)).fetchone()):
-                print('gotcha!')
                 users_id1 = sqlite_db.cur.execute(f"SELECT user_id FROM users WHERE {i} = ?", (date,)).fetchall()
                 users_lastname_list = ', '.join(row[0] for row in sqlite_db.cur.execute(f"SELECT user_lastname FROM users WHERE {i} = ?", (date,)).fetchall())
-                text1 = (date + f' У Вас {x}'+'.')
-                text2 = (date + f' {x} у следующих работников:\n'+ users_lastname_list + '. \nПосле ознакомления ставим лайк.')
+                text1 = (f'{date} У Вас {x}'+'.')
+                text2 = (f'{date} {x} у следующих работников:\n {users_lastname_list}. \nПосле ознакомления ставим лайк.')
                 for row in users_id1:
                     await bot.send_message(row[0], text1)
                     await asyncio.sleep(0.5)
-                await asyncio.sleep(1)
+
                 await bot.send_message(chat_id, text=text2)
+
         except Exception as e:
             pass
-        users_id2 = sqlite_db.cur.execute(f"SELECT user_id FROM users WHERE {i} LIKE ?", (f'%.{current_date}.%',)).fetchall()
-        if not users_id2:
-            continue
-        users_lastname_list = ', '.join(row[0] for row in cur.execute(f"SELECT user_lastname FROM users WHERE {i} LIKE ?", (f'%{current_date}.%',)).fetchall())
-        text3 = text3 + f'{x} у следующих работников:\n{users_lastname_list}.\n'
-        for row in users_id2:
-            await bot.send_message(ksu_id, text3)
+
+async def monthly_task():
+    current_date = datetime.now().strftime('%m')
+    text = ''
+    for i, x in zip(dict1, dict2):
+        try:
+            users_lastname_list = ', '.join(row[0] for row in sqlite_db.cur.execute(f"SELECT user_lastname FROM users WHERE {i} LIKE ?", (f'%.{current_date}.%',)).fetchall())
+            if users_lastname_list:
+                text = f'В этом месяце {x} у следующих работников:\n{users_lastname_list}.\n'
+                await bot.send_message(ksu_id, text)
+                await asyncio.sleep(0.5)
+        except Exception as e:
+            pass
+
+
+def run():
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(send_notif, 'cron', hour=9, minute=0)
+    scheduler.add_job(monthly_task, 'cron', day=1, hour=9, minute=30)
+    scheduler.start()
 
 
 # async def date_ot():
@@ -177,7 +177,3 @@ async def schedule():
 #     except Exception as e:
 #         print(e)
 #         pass
-
-
-def register_scheduler():
-   asyncio.create_task(scheduler())
